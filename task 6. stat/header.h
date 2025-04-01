@@ -1,25 +1,34 @@
 #ifndef _STAT_
 #define _STAT_
 
-//macros for defining st_mode file
 #define _DEF_TYPE_(_MACR_NAME_, MESSAGE) \
 {                                        \
 if (_MACR_NAME_(file_inf->st_mode))      \
 {                                        \
-    printf(MESSAGE);                     \
+    fprintf(file_ptr, MESSAGE);          \
     return TYPE_EXIST;                   \
 }                                        \
-}while(0); //while(0); - need for writing symbol ';' at the end of macroline
+}while(0);
 
-//consts for func define_type(...)
+const char* DUMP_FILE = "information.txt";
+
 enum ret_consts
 {
     TYPE_EXIST     = 0,
     TYPE_NOT_EXIST = 1,
 };
 
-ret_consts define_type       (struct stat* file_inf);
+enum check_file_consts
+{
+    CHECK_FILE_ERROR = 1,
+    CHECK_FILE_OK    = 0,
+};
 
-void printf_file_information (struct stat* file_inf);
+ret_consts define_type       (struct stat* file_inf, FILE* file_ptr);
+
+void printf_file_information (struct stat* file_inf, FILE* file_ptr);
+void CheckFclose             (FILE* file_ptr);
+
+int CheckFile                (FILE* file);
 
 #endif
