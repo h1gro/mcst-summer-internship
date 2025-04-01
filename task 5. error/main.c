@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <string.h>
 
 #include "header.h"
 
@@ -10,9 +11,9 @@ int main()
 
     if (errno) //errno check
     {
-        printf("errno = %d\n", errno);  //errno - number of error
-        perror("perror");               //perror - func that take errno number and printf string of error
+        printf("meaning of errno = %d\n\n<strerror> : %s\n", errno, strerror(errno));  //errno - number of error
+        perror("<perror>   ");               //perror - func that take errno number and printf string of error
     }
-    
+
     return 0;
 }
