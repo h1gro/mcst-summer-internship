@@ -48,22 +48,42 @@ void DoParent(FILE* read_file, size_t read_file_size)
 {
     assert(read_file);
 
-    FILE* parent_write = fopen(PARENT_FILE, "w+");
+    FILE* parent_write = fopen(PARENT_FILE, "w");
 
     CheckFile(parent_write);
+
+    FileCopy(read_file, parent_write, read_file_size);
+
+    CheckFclose(parent_write);
+}
+
+void DoChild(FILE* read_file, size_t read_file_size)
+{
+    assert(read_file);
+
+    FILE* child_write = fopen(CHILD_FILE, "w");
+
+    CheckFile(child_write);
+
+    FileCopy(read_file, child_write, read_file_size);
+
+    CheckFclose(child_write);
+}
+
+void FileCopy(FILE* read_file, FILE* write_file, size_t read_file_size)
+{
+    assert(read_file);
+    assert(write_file);
+
+    fseek(read_file, 0L, SEEK_SET);
 
     int* interim_buf = (int*) calloc(read_file_size, sizeof(int));
 
     fread(interim_buf, sizeof(char), read_file_size, read_file);
 
-    fwrite((const void*) interim_buf, sizeof(char), read_file_size, parent_write);
+    fwrite((const void*) interim_buf, sizeof(char), read_file_size, write_file);
 
     free(interim_buf);
-    CheckFclose(parent_write);
-}
-
-void DoChild (FILE* read_file, size_t read_file_size)
-{
 }
 
 int CheckFile(FILE* file)
