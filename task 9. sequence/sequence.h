@@ -10,6 +10,7 @@ struct seq_t
 const int NUMBER_ELEMS = 10;
 const int FICT_SUM     = -1000;
 
+void FindMaxSum   (struct seq_t* sequence);
 void SequenceCtor (struct seq_t* sequence);
 void SequenceDtor (struct seq_t* sequence);
 void FillArray    (int* array);
