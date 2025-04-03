@@ -1,6 +1,10 @@
 #ifndef _SEQUENCE_
 #define _SEQUENCE_
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+
 struct seq_t
 {
     int* numbers;
