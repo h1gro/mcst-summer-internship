@@ -4,7 +4,7 @@
 const char* PARENT_FILE = "parent.txt";
 const char* CHILD_FILE  = "child.txt";
 
-void DoParent (FILE* read_file);
-void DoChild  (FILE* read_file);
+void DoParent (FILE* read_file, size_t read_file_size);
+void DoChild  (FILE* read_file, size_t read_file_size);
 
 #endif

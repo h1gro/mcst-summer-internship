@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <assert.h>
 #include <sys/wait.h>
@@ -6,11 +7,16 @@
 
 #include "paral_proc.h"
 #include "../stat/header.h"
+
 //before start a programm you may have to write in console:
 //dos2unix main.c
 
 int main(int argc, char* argv[])
 {
+    struct stat file_inf = {0};
+
+    stat(argv[1], &file_inf);
+
     FILE* read_file = fopen(argv[1], "r");
 
     CheckFile(read_file);
@@ -24,12 +30,12 @@ int main(int argc, char* argv[])
 
     else if (ProgramID == 0)
     {
-        DoChild(read_file);
+        DoChild(read_file, file_inf.st_size);
     }
 
     else
     {
-        DoParent(read_file);
+        DoParent(read_file, file_inf.st_size);
         wait(NULL);
     }
 
@@ -38,20 +44,25 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-void DoParent (FILE* read_file)
+void DoParent(FILE* read_file, size_t read_file_size)
 {
     assert(read_file);
 
-    FILE* parent_write = fopen(PARENT_FILE, "w");
+    FILE* parent_write = fopen(PARENT_FILE, "w+");
 
     CheckFile(parent_write);
 
-    
+    int* interim_buf = (int*) calloc(read_file_size, sizeof(int));
 
+    fread(interim_buf, sizeof(char), read_file_size, read_file);
+
+    fwrite((const void*) interim_buf, sizeof(char), read_file_size, parent_write);
+
+    free(interim_buf);
     CheckFclose(parent_write);
 }
 
-void DoChild (FILE* read_file)
+void DoChild (FILE* read_file, size_t read_file_size)
 {
 }
 
