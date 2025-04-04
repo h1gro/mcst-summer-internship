@@ -13,15 +13,30 @@
 
 int main(int argc, char* argv[])
 {
-    struct stat file_inf = {0};
+    struct stat file_inf = {0}; //init struct stat
 
+    //get information of the main read file
     stat(argv[1], &file_inf);
 
     FILE* read_file = fopen(argv[1], "r");
 
-    CheckFile(read_file);
+    CheckFile(read_file); //check for opening file
 
-    pid_t ProgramID = fork();
+    //start parallel processing
+    ProcBranching(read_file, &file_inf);
+
+    CheckFclose(read_file);
+
+    return 0;
+}
+
+void ProcBranching(FILE* read_file, struct stat* file_inf)
+{
+    assert(read_file);
+    assert(file_inf);
+
+    int status = 0;
+    pid_t ProgramID = fork(); //create child-proc
 
     if (ProgramID == -1)
     {
@@ -30,16 +45,18 @@ int main(int argc, char* argv[])
 
     else if (ProgramID == 0)
     {
-        DoChild(read_file, file_inf.st_size);
+        DoChild(read_file, file_inf->st_size);
     }
 
     else
     {
-        DoParent(read_file, file_inf.st_size);
-        wait(NULL);
+        pid_t wait_ret = wait(&status); //wait() - waiting ending of child process 
+
+        if (wait_ret != -1) //check for ending child process
+        {
+            FILE* parent_file = DoParent(read_file, file_inf->st_size);
+            printf("---------------Parent_proc write in file---------------\n");
+            ResultProcesses(parent_file, file_inf->st_size); //print contents of the parent file
+        }
     }
-
-    CheckFclose(read_file);
-
-    return 0;
 }
