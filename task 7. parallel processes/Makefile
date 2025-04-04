@@ -15,11 +15,17 @@ flags = -D _DEBUG -ggdb3 -std=c++17 -O3 -Wall -Wextra -Weffc++ -Waggressive-loop
 
 all: paral_proc clean
 
-paral_proc: main.o
-	gcc main.o $(flags) -o main
+paral_proc: main.o parent_child.o utilits.o
+	gcc main.o parent_child.o utilits.o $(flags) -o main
 
 main.o: main.c
 	gcc -c $(flags) main.c
+
+parent_child.o: parent_child.c
+	gcc -c $(flags) parent_child.c
+
+utilits.o: utilits.c
+	gcc -c $(flags) utilits.c
 
 clean:
 	rm -rf *.o *.exe *.exe.log *.exe.log.dmp

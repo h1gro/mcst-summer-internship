@@ -5,7 +5,7 @@
 {                                                 \
 if (FUNC != read_file_size)                       \
 {                                                 \
-    perror("something going wrong with #FUNC\n"); \
+    printf("something going wrong with file\n"); \
     free(interim_buf);                            \
                                                   \
     return ERROR;                                 \
@@ -24,6 +24,7 @@ enum wr_ret
 
 void DoParent (FILE* read_file, size_t read_file_size);
 void DoChild  (FILE* read_file, size_t read_file_size);
+void ResultProcesses (FILE* include_file, size_t read_file_size);
 
 int FileCopy (FILE* read_file, FILE* write_file, size_t read_file_size);
 #endif
