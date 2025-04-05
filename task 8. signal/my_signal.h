@@ -10,9 +10,9 @@
 
 struct matrix_t
 {
-    int* matrix_A;
-    int* matrix_B;
-    int* matrix_C;
+    int* matrix_A; //RANDOM MATRIX A
+    int* matrix_B; //RANDOM MATRIX B
+    int* matrix_C; //ENDING MATRIX : A * B = C
     int  matrix_size;
     int  cur_line;
     int  cur_column;
