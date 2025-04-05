@@ -2,6 +2,7 @@
 #include <math.h>
 #include <assert.h>
 #include <time.h>
+#include <signal.h>
 
 #include "my_signal.h"
 
@@ -18,6 +19,8 @@ void MatrixCtor(struct matrix_t* matrix)
     matrix->matrix_A = (int*) calloc(matrix->matrix_size * matrix->matrix_size, sizeof(int));
     matrix->matrix_B = (int*) calloc(matrix->matrix_size * matrix->matrix_size, sizeof(int));
     matrix->matrix_C = (int*) calloc(matrix->matrix_size * matrix->matrix_size, sizeof(int));
+
+    C = matrix->matrix_C;
 
     assert(matrix->matrix_A);
     assert(matrix->matrix_B);
@@ -65,7 +68,7 @@ void Multiply(struct matrix_t* matrix)
     assert(matrix->matrix_B);
     assert(matrix->matrix_C);
 
-    int k = 0;
+    int C_position = 0;
 
     for (int lines_A = 0; lines_A < matrix->matrix_size; lines_A++)
     {
@@ -73,10 +76,16 @@ void Multiply(struct matrix_t* matrix)
         {
             for (int column_A = 0; column_A < matrix->matrix_size; column_A++)
             {
-                matrix->matrix_C[k] += matrix->matrix_A[lines_A * matrix->matrix_size + column_A] * matrix->matrix_B[column_A * matrix->matrix_size + column_B];
+                matrix->matrix_C[C_position] += matrix->matrix_A[lines_A * matrix->matrix_size + column_A] * matrix->matrix_B[column_A * matrix->matrix_size + column_B];
+                sleep(1);
             }
-            k++;
+            C_position++;
+            matrix->cur_column = C_position % matrix->matrix_size;
+            CUR_COLUMN = C_position % matrix->matrix_size;
+            printf("col = %d, line = %d\n", matrix->cur_column, matrix->cur_line);
         }
+        matrix->cur_line++;
+        CUR_LINE++;
     }
 }
 
@@ -97,5 +106,22 @@ void PrintMatrix(int* matr)
             printf("%d ", matr[i * MATRIX_SIZE + j]);
         }
         printf("\n");
+    }
+}
+
+void print_iterations(int sig)
+{
+    printf("\n-------------\nline: %d\ncolumn: %d\n-------------\n", CUR_LINE + 1, CUR_COLUMN + 1);
+
+    printf("C:\n");
+    PrintMatrix(C);
+    printf("\n");
+
+    signal(SIGINT, SIG_DFL);
+
+    if (signal(SIGINT, sigint_handler) == SIG_ERR)
+    {
+        perror("error!\n");
+        exit(0);
     }
 }

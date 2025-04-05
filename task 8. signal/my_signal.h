@@ -7,12 +7,21 @@ struct matrix_t
     int* matrix_B;
     int* matrix_C;
     int  matrix_size;
+    int  cur_line;
+    int  cur_column;
 };
 
 //const int MATRIX_SIZE = 1000000;
-const int MATRIX_SIZE = 10;
+const int MATRIX_SIZE = 5;
 
-void sigint_handler(int sig);
+static int CUR_COLUMN = 0;
+static int CUR_LINE   = 0;
+static int* C = NULL;
+
+static struct matrix_t* glob_matrix = NULL;
+
+void sigint_handler   (int sig);
+void print_iterations (int sig);
 
 void MatrixDtor    (struct matrix_t* matrix);
 void MatrixCtor    (struct matrix_t* matrix);
