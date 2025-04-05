@@ -1,15 +1,14 @@
-#include <stdio.h>
-#include <signal.h>
-#include <unistd.h>
-
 #include "my_signal.h"
 
 int main()
 {
     struct matrix_t matrix = {};
-    //glob_matrix = &matrix;
+    struct sigaction sig   = {};
 
-    if (signal(SIGINT, PrintIterations) == SIG_ERR) {
+    sig.sa_sigaction = PrintIterations;
+    sig.sa_flags     = SA_SIGINFO;
+
+    if (sigaction(SIGINT, &sig, NULL) == -1) {
         perror("Ошибка signal()");
         return 1;
     }

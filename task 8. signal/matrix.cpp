@@ -1,9 +1,3 @@
-#include <stdio.h>
-#include <math.h>
-#include <assert.h>
-#include <time.h>
-#include <signal.h>
-
 #include "my_signal.h"
 
 void MatrixCtor(struct matrix_t* matrix)
@@ -96,7 +90,7 @@ void PrintMatrix(int* matr)
     }
 }
 
-void PrintIterations(int sig)
+void PrintIterations(int sig, siginfo_t* info, void* context)
 {
     FILE* output_file = fopen(MATR_FILE, "w");
 

@@ -1,6 +1,13 @@
 #ifndef _SIGNAL_
 #define _SIGNAL_
 
+#include <stdio.h>
+#include <math.h>
+#include <assert.h>
+#include <time.h>
+#include <signal.h>
+#include <unistd.h>
+
 struct matrix_t
 {
     int* matrix_A;
@@ -29,7 +36,7 @@ static int* matr_C = NULL;
 static struct matrix_t* glob_matrix = NULL;
 
 void SigintHandler   (int sig);
-void PrintIterations (int sig);
+void PrintIterations (int sig, siginfo_t* info, void* context);
 void PrintEndMatrix  (int* matrix, FILE* output_file);
 void MatrixDtor      (struct matrix_t* matrix);
 void MatrixCtor      (struct matrix_t* matrix);
