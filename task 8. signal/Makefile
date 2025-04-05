@@ -15,14 +15,17 @@ flags = -D _DEBUG -ggdb3 -std=c++17 -O3 -Wall -Wextra -Weffc++ -Waggressive-loop
 
 all: signal clean
 
-signal: main.o matrix.o
-	g++ main.o matrix.o $(flags) -o main
+signal: main.o matrix.o utilits.o
+	g++ main.o matrix.o utilits.o $(flags) -o main
 
 main.o: main.cpp
 	g++ -c $(flags) main.cpp
 
 matrix.o: matrix.cpp
 	g++ -c $(flags) matrix.cpp
+
+utilits.o: utilits.cpp
+	g++ -c $(flags) utilits.cpp
 
 clean:
 	rm -rf *.o *.exe *.exe.log *.exe.log.dmp

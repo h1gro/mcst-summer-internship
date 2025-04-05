@@ -12,15 +12,11 @@ void MatrixCtor(struct matrix_t* matrix)
 
     matrix->matrix_size = MATRIX_SIZE;
 
-    //CtorArray(matrix->matrix_A,  matrix->matrix_size);
-    //CtorArray(matrix->matrix_B,  matrix->matrix_size);
-    //CtorArray(matrix->matrix_C,  matrix->matrix_size);
-
     matrix->matrix_A = (int*) calloc(matrix->matrix_size * matrix->matrix_size, sizeof(int));
     matrix->matrix_B = (int*) calloc(matrix->matrix_size * matrix->matrix_size, sizeof(int));
     matrix->matrix_C = (int*) calloc(matrix->matrix_size * matrix->matrix_size, sizeof(int));
 
-    C = matrix->matrix_C;
+    matr_C = matrix->matrix_C;
 
     assert(matrix->matrix_A);
     assert(matrix->matrix_B);
@@ -39,15 +35,6 @@ void MatrixDtor(struct matrix_t* matrix)
     free(matrix->matrix_A);
     free(matrix->matrix_B);
     free(matrix->matrix_C);
-}
-
-void CtorArray(int* array, int size)
-{
-    array = (int*) calloc(size, sizeof(int));
-
-    assert(array);
-
-    //FillingMatrix(array, size);
 }
 
 void FillingMatrix(int* matrix, int size)
@@ -103,25 +90,77 @@ void PrintMatrix(int* matr)
     {
         for (int j = 0; j < MATRIX_SIZE; j++)
         {
-            printf("%d ", matr[i * MATRIX_SIZE + j]);
+            printf("%5d ", matr[i * MATRIX_SIZE + j]);
         }
         printf("\n");
     }
 }
 
-void print_iterations(int sig)
+void PrintIterations(int sig)
 {
+    FILE* output_file = fopen(MATR_FILE, "w");
+
+    CheckFile(output_file);
+
     printf("\n-------------\nline: %d\ncolumn: %d\n-------------\n", CUR_LINE + 1, CUR_COLUMN + 1);
 
-    printf("C:\n");
-    PrintMatrix(C);
-    printf("\n");
+    fprintf(output_file, "C:\n   ");
+    for (int i = 0; i < MATRIX_SIZE; i++)
+    {
+        if (i == CUR_COLUMN)
+        {
+            fprintf(output_file, "--^-- ");
+        }
+        else
+        {
+            fprintf(output_file, "----- ");
+        }
+    }
+
+    fprintf(output_file, "\n");
+    PrintEndMatrix(matr_C, output_file);
+    fprintf(output_file, "\n");
+
+    CheckFclose(output_file);
 
     signal(SIGINT, SIG_DFL);
 
-    if (signal(SIGINT, sigint_handler) == SIG_ERR)
+    if (signal(SIGINT, SigintHandler) == SIG_ERR)
     {
         perror("error!\n");
         exit(0);
+    }
+}
+
+void SigintHandler(int sig)
+{
+    printf("\nSecond SIGINT (Ctrl+C) that stopped the programm\n");
+    _exit(0);
+}
+
+void PrintEndMatrix(int* matrix, FILE* output_file)
+{
+    assert(matrix);
+
+    for (int i = 0; i < MATRIX_SIZE; i++)
+    {
+        for (int j = -1; j < MATRIX_SIZE; j++)
+        {
+            if ((j == -1) && (i == CUR_LINE))
+            {
+                fprintf(output_file, "-> ");
+            }
+
+            else if (j == -1)
+            {
+                fprintf(output_file, " | ");
+            }
+
+            else
+            {
+                fprintf(output_file, "%5d ", matrix[i * MATRIX_SIZE + j]);
+            }
+        }
+        fprintf(output_file, "\n");
     }
 }

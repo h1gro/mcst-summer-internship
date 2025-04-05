@@ -9,7 +9,7 @@ int main()
     struct matrix_t matrix = {};
     //glob_matrix = &matrix;
 
-    if (signal(SIGINT, print_iterations) == SIG_ERR) {
+    if (signal(SIGINT, PrintIterations) == SIG_ERR) {
         perror("Ошибка signal()");
         return 1;
     }
@@ -33,10 +33,4 @@ int main()
     MatrixDtor(&matrix);
 
     return 0;
-}
-
-void sigint_handler(int sig)
-{
-    printf("\nПерехвачен SIGINT (Ctrl+C)\n");
-    _exit(0);
 }

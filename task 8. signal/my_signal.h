@@ -11,22 +11,33 @@ struct matrix_t
     int  cur_column;
 };
 
+enum check_file_consts
+{
+    CHECK_FILE_ERROR = 1,
+    CHECK_FILE_OK    = 0,
+};
+
 //const int MATRIX_SIZE = 1000000;
 const int MATRIX_SIZE = 5;
+static const char* MATR_FILE = "output_matrix.txt";
 
 static int CUR_COLUMN = 0;
 static int CUR_LINE   = 0;
-static int* C = NULL;
+
+static int* matr_C = NULL;
 
 static struct matrix_t* glob_matrix = NULL;
 
-void sigint_handler   (int sig);
-void print_iterations (int sig);
+void SigintHandler   (int sig);
+void PrintIterations (int sig);
+void PrintEndMatrix  (int* matrix, FILE* output_file);
+void MatrixDtor      (struct matrix_t* matrix);
+void MatrixCtor      (struct matrix_t* matrix);
+void FillingMatrix   (int* matrix, int size);
+void Multiply        (struct matrix_t* matrix);
+void PrintMatrix     (int* matr);
+void CheckFclose     (FILE* file_ptr);
 
-void MatrixDtor    (struct matrix_t* matrix);
-void MatrixCtor    (struct matrix_t* matrix);
-void CtorArray     (int* array, int size);
-void FillingMatrix (int* matrix, int size);
-void Multiply      (struct matrix_t* matrix);
-void PrintMatrix   (int* matr);
+int CheckFile (FILE* file);
+
 #endif
