@@ -10,6 +10,21 @@ int main()
 
     MatrixCtor(&matrix);
 
+    Multiply(&matrix);
+
+    printf("A:\n");
+    PrintMatrix(matrix.matrix_A);
+    printf("\n");
+
+    printf("B:\n");
+    PrintMatrix(matrix.matrix_B);
+    printf("\n");
+
+    printf("C:\n");
+    PrintMatrix(matrix.matrix_C);
+    printf("\n");
+
+    MatrixDtor(&matrix);
     // Устанавливаем обработчик для SIGINT
 //     if (signal(SIGINT, sigint_handler) == SIG_ERR) {
 //         perror("Ошибка signal()");
