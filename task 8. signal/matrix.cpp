@@ -68,12 +68,12 @@ void Multiply(struct matrix_t* matrix)
             {
                 //assignment C matrix
                 matrix->matrix_C[C_position] += matrix->matrix_A[lines_A * matrix->matrix_size + column_A] * matrix->matrix_B[column_A * matrix->matrix_size + column_B];
-                sleep(1); //break proggram in 1 second, need for debug
+                //sleep(1); //break proggram in 1 second, need for debug
             }
             C_position++; //current position in C matrix
             matrix->cur_column = C_position % matrix->matrix_size;
             CUR_COLUMN = C_position % matrix->matrix_size;
-            printf("col = %d, line = %d\n", matrix->cur_column, matrix->cur_line);
+            //printf("col = %d, line = %d\n", matrix->cur_column, matrix->cur_line);
         }
         matrix->cur_line++;
         CUR_LINE++;
@@ -116,11 +116,11 @@ void PrintIterations(int sig, siginfo_t* info, void* context)
     {
         if (i == CUR_COLUMN)
         {
-            fprintf(output_file, "--^-- ");
+            fprintf(output_file, "---^--- ");
         }
         else
         {
-            fprintf(output_file, "----- ");
+            fprintf(output_file, "------- ");
         }
     }
 
@@ -169,7 +169,7 @@ void PrintEndMatrix(int* matrix, FILE* output_file)
 
             else
             {
-                fprintf(output_file, "%5d ", matrix[i * MATRIX_SIZE + j]);
+                fprintf(output_file, "%7d ", matrix[i * MATRIX_SIZE + j]);
             }
         }
         fprintf(output_file, "\n");

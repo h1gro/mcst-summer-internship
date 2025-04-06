@@ -25,7 +25,7 @@ enum check_file_consts
 };
 
 //const int MATRIX_SIZE = 1000000;
-const int MATRIX_SIZE = 5;
+const int MATRIX_SIZE = 1000;
 static const char* MATR_FILE = "output_matrix.txt";
 
 static int CUR_COLUMN = 0;
