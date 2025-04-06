@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include <sys/stat.h>
 
 struct file_t
 {
@@ -17,17 +16,19 @@ struct file_t
     int (*comparator)(const void*, const void*);
 };
 
-// enum cmps
-// {
-//     CMP_LEN = "length";
-// };
-
-const char* FILE_FOR_SORT = "unsort.txt";
-const char* SORTED_FILE   = "sort.txt";
+enum check_file_consts
+{
+    CHECK_FILE_ERROR = 1,
+    CHECK_FILE_OK    = 0,
+};
 
 int cmp_length_up   (const void* str1, const void* str2);
 int cmp_length_down (const void* str1, const void* str2);
+int cmp_alphabet    (const void* str1, const void* str2);
+int CheckFile       (FILE* file);
+int IfSpace         (const char* string);
 
+void CheckFclose     (FILE* file_ptr);
 void Dtor            (struct file_t* files);
 void SortText        (struct file_t* files);
 void DefineComp      (struct file_t* files, const char* comparator);

@@ -15,11 +15,19 @@ flags = -D _DEBUG -ggdb3 -std=c++17 -O3 -Wall -Wextra -Weffc++ -Waggressive-loop
 
 all: signal clean
 
-signal: main.o
-	g++ main.o $(flags) -o main
+signal: main.o processing_text.o comparators.o utilits.o
+	g++ main.o processing_text.o comparators.o utilits.o $(flags) -o main
 
 main.o: main.c
 	g++ -c $(flags) main.c
 
+processing_text.o: processing_text.c
+	g++ -c $(flags) processing_text.c
+
+comparators.o: comparators.c
+	g++ -c $(flags) comparators.c
+
+utilits.o: utilits.c
+	g++ -c $(flags) utilits.c
 clean:
 	rm -rf *.o *.exe *.exe.log *.exe.log.dmp
