@@ -26,12 +26,19 @@ enum wr_ret
     SUCCESS      = 351
 };
 
+enum check_file_consts
+{
+    CHECK_FILE_ERROR = 1,
+    CHECK_FILE_OK    = 0,
+};
+
 FILE* DoParent (FILE* read_file, size_t read_file_size);
 
+void CheckFclose     (FILE* file_ptr);
 void DoChild         (FILE* read_file, size_t read_file_size);
 void ResultProcesses (FILE* include_file, size_t read_file_size);
 void ProcBranching   (FILE* read_file, struct stat* file_inf);
 
-int FileCopy (FILE* read_file, FILE* write_file, size_t read_file_size);
-
+int FileCopy  (FILE* read_file, FILE* write_file, size_t read_file_size);
+int CheckFile (FILE* file);
 #endif

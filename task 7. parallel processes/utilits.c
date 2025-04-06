@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "../stat/header.h"
+#include "paral_proc.h"
 
 int CheckFile(FILE* file)
 {
