@@ -18,14 +18,14 @@ all: signal clean
 signal: main.o matrix.o utilits.o
 	g++ main.o matrix.o utilits.o $(flags) -o main
 
-main.o: main.cpp
-	g++ -c $(flags) main.cpp
+main.o: main.c
+	g++ -c $(flags) main.c
 
-matrix.o: matrix.cpp
-	g++ -c $(flags) matrix.cpp
+matrix.o: matrix.c
+	g++ -c $(flags) matrix.c
 
-utilits.o: utilits.cpp
-	g++ -c $(flags) utilits.cpp
+utilits.o: utilits.c
+	g++ -c $(flags) utilits.c
 
 clean:
 	rm -rf *.o *.exe *.exe.log *.exe.log.dmp
