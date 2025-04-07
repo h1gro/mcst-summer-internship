@@ -70,7 +70,7 @@ void FillingAddr(struct file_t* files, size_t size)
     //init adr of the first string
     files->addr[0] = &files->text[0];
 
-    int n = 1;
+    size_t n = 1;
 
     for (size_t i = 0; i < size - 2; i++)
     {
